@@ -99,15 +99,16 @@ fun main(args: Array<String>) {
         val gif = GifLoader.fromJAR("/img/tsukasa.gif")
         val h = contentPane.height
         val tmp = File.createTempFile("tsukasa", ".gif")
-        val stream = StreamingGifWriter().prepareStream(tmp, BufferedImage.TYPE_INT_ARGB)
         tmp.deleteOnExit()
-        for(i in gif.frames.indices) {
-            val delay = gif.getDelay(i)
-            val frame = gif.getFrame(i).scaleToHeight(h, ScaleMethod.Progressive)
-            val dispose = gif.getDisposeMethod(i)
-            stream.writeFrame(frame, delay, dispose)
+        StreamingGifWriter().prepareStream(tmp, BufferedImage.TYPE_INT_ARGB).use { stream ->
+            for(i in gif.frames.indices) {
+                val delay = gif.getDelay(i)
+                val frame = gif.getFrame(i).scaleToHeight(h, ScaleMethod.Progressive)
+                val dispose = gif.getDisposeMethod(i)
+                stream.writeFrame(frame, delay, dispose)
+            }
         }
-        stream.close()
+
         imageLabel.icon = ImageIcon(tmp.toURI().toURL())
         pack()
         isLocationByPlatform = true
