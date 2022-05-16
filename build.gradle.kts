@@ -21,6 +21,14 @@ dependencies {
 
 
 tasks.apply {
+    shadowJar {
+        exclude("**/LICENSE.txt", "LICENSE", "**/NOTICE.txt")
+        minimize {
+            exclude(dependency("com.sksamuel.scrimage:.*:.*"))
+            exclude(dependency("com.formdev:flatlaf:.*"))
+        }
+    }
+
     test {
         useJUnitPlatform()
     }
