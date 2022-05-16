@@ -19,17 +19,20 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
 
-tasks.withType<AbstractArchiveTask> {
-    isReproducibleFileOrder = true
-    isPreserveFileTimestamps = false
-}
+tasks.apply {
+    test {
+        useJUnitPlatform()
+    }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    withType<AbstractArchiveTask> {
+        isReproducibleFileOrder = true
+        isPreserveFileTimestamps = false
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
 }
 
 application {
